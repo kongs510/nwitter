@@ -27,7 +27,7 @@ const Auth = () => {
                 //create account
                 data = await authService.createUserWithEmailAndPassword(email, password);
             } else {
-                // Log in
+                //Log in
                 data = await authService.signInWithEmailAndPassword(email, password);
             }
             console.log(data)
@@ -36,8 +36,9 @@ const Auth = () => {
         }
     };
     const toggleAccount = () =>setNewAccount((prev)=>!prev)
+
     const onSocialClick = async (event) =>{
-        const {target:{name},
+        const {target:{name}
         } = event;
         let prvider;  
         if(name ==="google"){
@@ -58,6 +59,7 @@ const Auth = () => {
                     required="required"
                     value={email}
                     onChange={onChange}/>
+
                 <input
                     type="password"
                     name="password"
@@ -65,6 +67,7 @@ const Auth = () => {
                     required="required"
                     value={password}
                     onChange={onChange}/>
+
                 <input
                     type="submit"
                     value={newAccount ? "create Account":"Sign In"}/>

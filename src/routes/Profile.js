@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 
 
 const Profile = () => {
-        //const history =useHistory(); //로그아웃 리다이렉트
+        const history =useHistory(); //로그아웃 리다이렉트
         const onLogOutClick = () => {
             authService.signOut();
-            //history.push("/");// 주석처리 위에 실행
+            history.push("/");// 주석처리 위에 실행
         }
     return(
         <>
