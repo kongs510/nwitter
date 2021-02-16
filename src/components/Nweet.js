@@ -1,4 +1,4 @@
-import {dbService} from "fbase";
+import {dbService, storageService} from "fbase";
 import React, {useState} from "react";
 
 const Nweet = ({nweetObj, isOwner}) => {
@@ -9,9 +9,8 @@ const Nweet = ({nweetObj, isOwner}) => {
         console.log(ok);
         if (ok) {
             //delete nweet
-            await dbService
-                .doc(`nweets/${nweetObj.id}`)
-                .delete();
+            await dbService.doc(`nweets/${nweetObj.id}`).delete(); //텍스트 삭제
+            await storageService.refFromURL(nweetObj.attachmentUrl).delete(); //이미지 삭제
         }
     };
     const toggleEditing = () => setEditing((prev) => !prev);

@@ -1,18 +1,32 @@
-import { authService } from "fbase";
-import React from "react";
+import React, { useEffect } from "react";
+import { authService, dbService } from "fbase";
 import { useHistory } from "react-router-dom";
 
+export default ({ userObj }) => {
+  const history = useHistory();
+  const onLogOutClick = () => {
+    authService.signOut();
+    history.push("/");
+  };
+  const getMyNweets = async () => {
+    const nweets = await dbService
+      .collection("nweets")
+      .where("creatorId", "==", userObj.uid)
+      .orderBy("createdAt")
+      .get();
+    console.log(nweets.docs.map((doc) => doc.data()));
+  };
 
-const Profile = () => {
-        const history =useHistory(); //로그아웃 리다이렉트
-        const onLogOutClick = () => {
-            authService.signOut();
-            history.push("/");// 주석처리 위에 실행
-        }
-    return(
-        <>
-            <button onClick={onLogOutClick}>Log out</button>
-        </>
-    )
-}
-export default Profile;
+  useEffect(() => {
+    getMyNweets();
+  }, []);
+  return (
+    <>
+    <form onSubmit={onSubmit}>
+        <input type="text" onChange={onchange} placeholder="Display name" value={newDisplayName} />
+        <input type="submit" value="update Profile"/>
+    </form>
+      <button onClick={onLogOutClick}>Log Out</button>
+    </>
+  );
+};

@@ -6,7 +6,8 @@ function App() {
     const [init, setInit] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userObj, setUserObj] = useState(null);
-    console.log(authService.currentUser);
+      
+      //console.log(authService.currentUser);
       useEffect(() => {
             authService.onAuthStateChanged((user) => {
               if(user){
@@ -19,7 +20,7 @@ function App() {
             });
       }, [])
         return (
-            <> {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj}  />: "Initizalizing..."}
+            <> {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj}/> : "Initizalizing..." }
                   <footer>
                     &copy; Nwitter{new Date().getFullYear()}
                   </footer>

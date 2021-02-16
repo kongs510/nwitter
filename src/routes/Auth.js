@@ -36,7 +36,6 @@ const Auth = () => {
         }
     };
     const toggleAccount = () =>setNewAccount((prev)=>!prev)
-
     const onSocialClick = async (event) =>{
         const {target:{name}
         } = event;
@@ -52,25 +51,9 @@ const Auth = () => {
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required="required"
-                    value={email}
-                    onChange={onChange}/>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    required="required"
-                    value={password}
-                    onChange={onChange}/>
-
-                <input
-                    type="submit"
-                    value={newAccount ? "create Account":"Sign In"}/>
+                <input type="email" name="email" placeholder="Email" required="required" value={email} onChange={onChange}/>
+                <input type="password" name="password" placeholder="password" required="required" value={password} onChange={onChange}/>
+                <input type="submit" value={newAccount ? "create Account":"Sign In"}/>
                         {error}
             </form>
             <span onClick={toggleAccount}>{newAccount ? "Sign In":"create Account"}</span>
