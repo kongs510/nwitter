@@ -11,16 +11,28 @@ function App() {
       useEffect(() => {
             authService.onAuthStateChanged((user) => {
               if(user){
-                setIsLoggedIn(true);
-                setUserObj(user);
-              }else{
-                setIsLoggedIn(false);
+                setUserObj({
+                  displayName:user.displayName,
+                  uid: user.uid,
+                  updateProfile: (args) => user.updateProfile(args),
+                });
               }
               setInit(true);
             });
       }, [])
+      const refreshUser = () =>{
+        const user =authService.currentUser;
+        console.log(authService.currentUser.displayName);
+          setUserObj({
+            displayName: user.displayName,
+            uid: user.uid,
+            updateProfile: (args) => user.updateProfile(args),
+          });
+      }
         return (
-            <> {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj}/> : "Initizalizing..." }
+            <> {init ? (
+              <AppRouter refreshUser={refreshUser} isLoggedIn = {Boolean(userObj)} userObj={userObj}/>
+              ) : "Initizalizing..." }
                   <footer>
                     &copy; Nwitter{new Date().getFullYear()}
                   </footer>
