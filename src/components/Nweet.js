@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {dbService, storageService} from "fbase";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
 const Nweet = ({nweetObj, isOwner}) => {
     const [editing, setEditing] = useState(false);
@@ -9,49 +11,63 @@ const Nweet = ({nweetObj, isOwner}) => {
         console.log(ok);
         if (ok) {
             //delete nweet
-            await dbService.doc(`nweets/${nweetObj.id}`).delete(); //텍스트 삭제
-            await storageService.refFromURL(nweetObj.attachmentUrl).delete(); //이미지 삭제
+            await dbService
+                .doc(`nweets/${nweetObj.id}`)
+                .delete(); //텍스트 삭제
+            await storageService
+                .refFromURL(nweetObj.attachmentUrl)
+                .delete(); //이미지 삭제
         }
     };
     const toggleEditing = () => setEditing((prev) => !prev);
-    const onSubmit = async (event) =>{
+    const onSubmit = async (event) => {
         event.preventDefault();
-        await dbService.doc(`nweets/${nweetObj.id}`).update({
-            text:newNweet,
-        });
+        await dbService
+            .doc(`nweets/${nweetObj.id}`)
+            .update({text: newNweet});
         setEditing(false);
     };
-    const onChange =(event) => {
-        const{
-            target:{value},
-        } = event;
+    const onChange = (event) => {
+        const {target: {
+                value
+            }} = event;
         setNewNweet(value);
     };
     return (
-        <div>
-            {editing ? (
-                <>
-                    <form onSubmit={onSubmit}>
-                        <input type="text" placeholder="Edit your nweet" value={newNweet} onChange={onChange} required="required"/>
-                        <input type="submit" value="Update Nweet"/>
-                    </form>
-                    <button onClick={toggleEditing}>Cancel</button>
-                </>    
+            <div className="nweet">
+            { editing
+                ? (
+                    <> 
+                        < form onSubmit = { onSubmit} >
+                            <input
+                                type="text"
+                                placeholder="Edit your nweet"
+                                value={newNweet}
+                                required="required"
+                                autoFocus="autoFocus"
+                                onChange={onChange}
+                                className="formInput"/>
+                            <input type="submit" value="Update Nweet" className="formBtn"/>
+                        </form>
+                        <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button> 
+                    </>    
                 ) : (
                     <>
-                        <h4>{nweetObj.text}</h4>
-                        {nweetObj.attachmentUrl && (<img src={nweetObj.attachmentUrl} width="50px" height="50px"/>
-                        )}
-                        {isOwner && (
-                                <> 
-                                    <button onClick = {onDeleteClick}> Delete Nweet </button>
-                                    <button onClick = {toggleEditing}> Edit Nweet </button> 
-                                </>
-                            )}
+                        <h4>{nweetObj.text}</h4 > 
+                        {nweetObj.attachmentUrl && <img src={nweetObj.attachmentUrl}width="100px" height="100px" />}
+                        { isOwner && (
+                            <div class="nweet__actions">
+                                <span onClick={onDeleteClick}>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                </span>
+                                <span onClick={toggleEditing}>
+                                    <FontAwesomeIcon icon={faPencilAlt}/>
+                                </span>
+                            </div>
+                        )} 
                     </>
-                        )
-                }
-        </div>
-    )
+                )}
+            </div>
+    );
 };
 export default Nweet;

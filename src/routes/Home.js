@@ -6,7 +6,6 @@ import NweetFactory from "components/NweetFactory";
 const Home = ({userObj}) => {
     //console.log(userObj);
     const [nweets, setNweets] = useState([]);
-   
     const getNeweets = async () => {
         const dbNweets = await dbService
             .collection("nweets")
@@ -36,9 +35,9 @@ const Home = ({userObj}) => {
             });
     }, []);
     return (
-            <div>
+            <div className="container">
                 <NweetFactory userObj={userObj} />
-            <div>
+                <div style={{ marginTop: 30 }}>
                 {nweets.map((nweet) => (
                     <Nweet key={nweet.id} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid} />  
                 ))} 
