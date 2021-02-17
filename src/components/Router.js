@@ -6,6 +6,7 @@ import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 
 const AppRouter = ({refreshUser,isLoggedIn,userObj}) => {
+    console.log('userObj: ', userObj)
     return (
         <Router>
             {isLoggedIn && <Navigation userObj={userObj} />}

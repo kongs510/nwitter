@@ -19,7 +19,7 @@ export default ({ refreshUser,userObj }) => {
     event.preventDefault();
     if (userObj.displayName !== newDisplayName) {
       await userObj.updateProfile({
-        displayName : newDisplayName,
+      displayName : newDisplayName,
       });
       refreshUser();
     }
