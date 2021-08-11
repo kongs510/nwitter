@@ -1,48 +1,66 @@
-import React, {useEffect, useState} from "react";
-import {dbService,storageService} from "fbase";
+import React, { useEffect, useState } from "react";
+import { dbService, storageService } from "fbase";
 import Nweet from "components/Nweet";
 import NweetFactory from "components/NweetFactory";
 
-const Home = ({userObj}) => {
-    //console.log(userObj);
+const Home = () => {
+    const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
-    const getNeweets = async () => {
-        const dbNweets = await dbService
-            .collection("nweets")
-            .get();
+    const getNweets = async () => {
+        const dbNweets = await dbService.collection("nweets").get();
         dbNweets.forEach((document) => {
-            const nweetobject = {
+            console.log(document.data())
+            const nweetObject = {
                 ...document.data(),
-                id: document.id
-            }
-            setNweets((prev) => [
-                nweetobject, ...prev
-            ]);
+                id: document.id,
+            };
+            setNweets((prev) => [nweetObject, ...prev]);
         });
     };
     useEffect(() => {
-        dbService
-            .collection("nweets")
-            .orderBy("createdAt", "desc")
-            .onSnapshot((Snapshot) => {
-                const nweetArray = Snapshot
-                    .docs
-                    .map((doc) => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                setNweets(nweetArray);
-            });
+        getNweets();
     }, []);
+
+
+    const onSubmit = async (event) => {
+        if (nweets !== "") {
+            event.preventDefault();
+            await dbService.collection("nweets").add({
+                nweet,
+                createdAt: Date.now(),
+            });
+            setNweet("");
+            console.log("db저장됨");
+        };
+    }
+
+    const onChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setNweet(value);
+        console.log(value);
+    };
     return (
-            <div className="container">
-                <NweetFactory userObj={userObj} />
-                <div style={{ marginTop: 30 }}>
+        <div>
+            <form onSubmit={onSubmit}>
+                <input
+                    value={nweet}
+                    onChange={onChange}
+                    type="text"
+                    placeholder="What's on your mind?"
+                    maxLength={120}
+                />
+                <input type="submit" value="Nweet" />
+            </form>
+            <div>
                 {nweets.map((nweet) => (
-                    <Nweet key={nweet.id} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid} />  
-                ))} 
+                    <div key={nweet.id}>
+                        <h4>{nweet.nweet}</h4>
+                    </div>
+                ))}
             </div>
-        </div >
-        );
+        </div>
+    );
 };
 export default Home;
