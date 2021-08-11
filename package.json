@@ -2,6 +2,10 @@
   "name": "nwitter",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.18.0",
+    "npm": "7.20.5"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
