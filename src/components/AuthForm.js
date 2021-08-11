@@ -1,11 +1,11 @@
-import { authService } from "fbase";
 import React, { useState } from "react";
+import { authService } from "../fbase";
 
-const AuthForm = () =>{
+const AuthForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newAccount, setNewAccount] = useState(true);
-    const [error,setError] = useState("");
+    const [error, setError] = useState("");
     const onChange = (event) => {
         const {
             target: {
@@ -18,7 +18,7 @@ const AuthForm = () =>{
         } else if (name === "password") {
             setPassword(value)
         }
-    } 
+    }
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -35,16 +35,16 @@ const AuthForm = () =>{
             setError(error.message)
         }
     };
-    const toggleAccount = () =>setNewAccount((prev)=>!prev)
-    return(
+    const toggleAccount = () => setNewAccount((prev) => !prev)
+    return (
         <>
             <form onSubmit={onSubmit} className="container">
                 <input type="email" name="email" placeholder="Email" required="required" value={email} className="authInput" onChange={onChange} />
-                <input type="password" name="password" placeholder="password" required="required" value={password} className="authInput" onChange={onChange}/>
-                <input type="submit" className="authInput authSubmit" value={newAccount ? "create Account":"Sign In"}/>
-                        {error && <span className="authError">{error}</span>}
+                <input type="password" name="password" placeholder="password" required="required" value={password} className="authInput" onChange={onChange} />
+                <input type="submit" className="authInput authSubmit" value={newAccount ? "create Account" : "Sign In"} />
+                {error && <span className="authError">{error}</span>}
             </form>
-            <span onClick={toggleAccount} className="authSwitch">{newAccount ? "Sign In":"create Account"}</span>
+            <span onClick={toggleAccount} className="authSwitch">{newAccount ? "Sign In" : "create Account"}</span>
         </>
 
     )

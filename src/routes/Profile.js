@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { authService } from "fbase";
 import { useHistory } from "react-router-dom";
+import { authService } from "../fbase";
 
-export default ({ refreshUser,userObj }) => {
+export default ({ refreshUser, userObj }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const onLogOutClick = () => {
@@ -19,7 +19,7 @@ export default ({ refreshUser,userObj }) => {
     event.preventDefault();
     if (userObj.displayName !== newDisplayName) {
       await userObj.updateProfile({
-      displayName : newDisplayName,
+        displayName: newDisplayName,
       });
       refreshUser();
     }
@@ -28,7 +28,7 @@ export default ({ refreshUser,userObj }) => {
     <div className="container">
       <form onSubmit={onSubmit} className="profileForm">
         <input onChange={onChange} type="text" autoFocus placeholder="Display name" className="formInput" value={newDisplayName} />
-        <input type="submit" value="Update Profile" className="formBtn" style={{ marginTop: 10,}} />
+        <input type="submit" value="Update Profile" className="formBtn" style={{ marginTop: 10, }} />
       </form>
       <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
         Log Out

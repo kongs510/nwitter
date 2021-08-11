@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { dbService, storageService } from "fbase";
-import Nweet from "components/Nweet";
-import NweetFactory from "components/NweetFactory";
+import Nweet from "../components/Nweet";
+import NweetFactory from "../components/NweetFactory";
+import { dbService } from "../fbase";
 
 const Home2 = ({ userObj }) => {
     const [nweets, setNweets] = useState([]);

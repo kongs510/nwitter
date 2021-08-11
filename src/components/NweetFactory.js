@@ -1,4 +1,4 @@
-import { dbService, storageService } from "fbase";
+import { dbService, storageService } from "../fbase";
 import { v4 as uuidv4 } from "uuid";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
